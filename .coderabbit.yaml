@@ -1,0 +1,27 @@
+# Every pixtuoid repo with no .coderabbit.yaml of its own reads this one
+# (docs.coderabbit.ai/configuration/central-configuration), so no repo keeps one.
+reviews:
+  # Its default writes into the PR body (coderabbit.ai/integrations/schema.v2.json),
+  # which the Claude review judges as the author's and the squash merge makes
+  # main's commit message.
+  high_level_summary: false
+  auto_review:
+    # Every push is reviewed, a stacked PR's included.
+    base_branches: [".*"]
+    auto_pause_after_reviewed_commits: 0
+    # Whoever queues a bot's PR reads it first; a fork's PR, which the Claude
+    # review skips, keeps this one.
+    ignore_usernames: ["dependabot[bot]", "pixtuoid-bot[bot]"]
+  pre_merge_checks:
+    # Docstring coverage is a goal the org rule "Comments are WHY only" rejects.
+    docstrings: { mode: "off" }
+chat:
+  # A reply in a finding's thread is its disposition, never a conversation.
+  auto_reply: false
+knowledge_base:
+  code_guidelines:
+    # The docs' default patterns omit it, though the schema's list it.
+    filePatterns: ["**/REVIEW.md"]
+  # A lesson becomes a mechanism or a version-controlled rule, never a
+  # reviewer's private memory.
+  opt_out: true
